@@ -21,3 +21,10 @@ class Role(db.Model):
         if self.parent:
             caps |= set(self.parent.all_capabilities())
         return caps
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "parent_id": self.parent_id
+        }
