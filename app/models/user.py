@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(256))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    is_admin = db.Column(db.Boolean, default=False)  # access control
     roles = db.relationship('Role', secondary=user_roles)
 
     def to_dict(self):

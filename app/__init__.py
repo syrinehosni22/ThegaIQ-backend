@@ -4,7 +4,6 @@ from app.routes.auth_routes import auth_bp
 from app.routes.role_routes import role_bp
 from app.routes.user_routes import user_bp
 from app.config import Config
-from app.models import User  # adjust the import path to your project structure
 
 def create_app():
     app = Flask(__name__)
@@ -20,6 +19,10 @@ def create_app():
     def load_user(user_id):
         from app.models import User
         return User.query.get(int(user_id))
+    
+     # Import CLI commands
+    from .cli import register_commands
+    register_commands(app)
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')

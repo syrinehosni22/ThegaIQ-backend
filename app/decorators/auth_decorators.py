@@ -10,6 +10,7 @@ def requires_role(role_name):
             if not current_user.is_authenticated:
                 return jsonify({"error": "Authentication required"}), 401
             if not any(role.name == role_name for role in current_user.roles):
+                print("current_user",current_user.roles)
                 return jsonify({"error": f"Access denied, {role_name} role required"}), 403
             return f(*args, **kwargs)
         return wrapper

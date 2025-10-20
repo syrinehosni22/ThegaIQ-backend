@@ -1,0 +1,1 @@
+flask create-admin admin admin@thegaiq.com test123
