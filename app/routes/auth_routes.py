@@ -16,7 +16,7 @@ def register():
     user, error = register_user(username, email, password)
     if error:
         return jsonify({"error": error}), 400
-    return jsonify({"message": "User registered", "id": user.id}), 201
+    return jsonify(user.to_dict()), 201
 
 
 @auth_bp.route('/login', methods=['POST'])

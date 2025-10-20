@@ -1,5 +1,6 @@
 from app import db
 from app.models.user import User
+from app.models.role import Role
 from app.utils.security import hash_password, verify_password
 from flask_login import login_user, logout_user
 
@@ -13,6 +14,7 @@ def register_user(username, email, password):
     user = User(username=username, email=email, password_hash=hashed_password)
     db.session.add(user)
     db.session.commit()
+    print("role in session",user.roles)
     return user, None
 
 

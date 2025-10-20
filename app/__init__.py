@@ -2,6 +2,7 @@ from flask import Flask
 from app.extensions import db, login_manager, migrate
 from app.routes.auth_routes import auth_bp
 from app.routes.role_routes import role_bp
+from app.routes.user_routes import user_bp
 from app.config import Config
 from app.models import User  # adjust the import path to your project structure
 
@@ -22,7 +23,8 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    app.register_blueprint(role_bp, url_prefix="/api/admin")
+    app.register_blueprint(role_bp, url_prefix="/api/role")
+    app.register_blueprint(user_bp, url_prefix='/api/user')
 
 
     return app
