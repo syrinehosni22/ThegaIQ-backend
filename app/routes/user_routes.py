@@ -11,7 +11,7 @@ user_bp = Blueprint('user_bp', __name__)
 # -------------------------
 # GET all users (Admin only)
 # -------------------------
-@user_bp.route('/users', methods=['GET'])
+@user_bp.route('/all', methods=['GET'])
 @login_required
 @requires_role('admin')
 def get_users():
@@ -22,7 +22,7 @@ def get_users():
 # -------------------------
 # GET single user by ID
 # -------------------------
-@user_bp.route('/users/<int:user_id>', methods=['GET'])
+@user_bp.route('/<int:user_id>', methods=['GET'])
 @login_required
 @requires_role('admin')
 def get_user(user_id):

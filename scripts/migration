@@ -1,0 +1,3 @@
+flask db init
+flask db migrate -m "migration comment"
+flask db upgrade

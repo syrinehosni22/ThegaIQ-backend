@@ -22,13 +22,26 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=user_roles)
 
     def to_dict(self):
+        capabilities = set()
+
+        for role in self.roles:
+        # Add capabilities of the role itself
+            for cap in role.capabilities:
+                capabilities.add(cap.name)
+        
+        # If the role has a parent, also include its capabilities
+            if role.parent:
+                for cap in role.parent.capabilities:
+                    capabilities.add(cap.name)
+
         return {
-            "id": self.id,
+           "id": self.id,
             "username": self.username,
             "email": self.email,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-            "roles": [role.name for role in self.roles]
+            "roles": [role.name for role in self.roles],
+            "capabilities": list(capabilities)
         }
     
     def has_role(self, role_name):

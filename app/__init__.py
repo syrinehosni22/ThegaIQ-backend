@@ -3,6 +3,7 @@ from app.extensions import db, login_manager, migrate
 from app.routes.auth_routes import auth_bp
 from app.routes.role_routes import role_bp
 from app.routes.user_routes import user_bp
+from app.routes.capability_routes import capability_bp
 from app.config import Config
 
 def create_app():
@@ -28,6 +29,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(role_bp, url_prefix="/api/role")
     app.register_blueprint(user_bp, url_prefix='/api/user')
+    app.register_blueprint(capability_bp, url_prefix='/api/capabilities')
 
-
+    
     return app

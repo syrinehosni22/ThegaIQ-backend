@@ -28,7 +28,7 @@ def create_role():
     role, error = create_role_service(name, description, parent_id)
     if error:
         return jsonify({"error": error}), 400
-    return jsonify({"message": "Role created", "id": role.id}), 201
+    return jsonify(role.to_dict()), 201
 
 @role_bp.route('/<int:role_id>', methods=['PUT'])
 @login_required
@@ -37,10 +37,12 @@ def update_role(role_id):
     data = request.get_json()
     name = data.get('name')
     description = data.get('description')
-    role, error = update_role_service(role_id, name, description)
+    parent_id=data.get('parent_id')
+    capability_ids=data.get('capabilities')
+    role, error = update_role_service(role_id, name, description,parent_id,capability_ids)
     if error:
         return jsonify({"error": error}), 400
-    return jsonify({"message": "Role updated", "id": role.id}), 200
+    return jsonify(role.to_dict()), 200
 
 @role_bp.route('/<int:role_id>', methods=['DELETE'])
 @login_required
