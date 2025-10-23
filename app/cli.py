@@ -44,7 +44,7 @@ def register_commands(app):
     @app.cli.command("create-role")
     @click.argument("name")
     @click.argument("description")
-    @click.argument("parent-name")
+    @click.option("--parent-name", default=None, help="Optional parent role name")
     @with_appcontext
     def create_role(name, description, parent_name):
         """
@@ -52,15 +52,15 @@ def register_commands(app):
         """
         # Check if the role already exists
         if Role.query.filter_by(name=name).first():
-           click.echo(f"⚠️ Role '{name}' already exists!")
-           return
+            click.echo(f"⚠️ Role '{name}' already exists!")
+            return
 
         parent_id = None
         if parent_name:
             parent_role = Role.query.filter_by(name=parent_name).first()
             if not parent_role:
-               click.echo(f"❌ Parent role '{parent_name}' not found.")
-               return
+                click.echo(f"❌ Parent role '{parent_name}' not found.")
+                return
             parent_id = parent_role.id
 
         new_role = Role(name=name, description=description, parent_id=parent_id)
@@ -68,9 +68,9 @@ def register_commands(app):
         db.session.commit()
 
         if parent_name:
-           click.echo(f"✅ Role '{name}' created successfully with parent '{parent_name}'.")
+            click.echo(f"✅ Role '{name}' created successfully with parent '{parent_name}'.")
         else:
-           click.echo(f"✅ Role '{name}' created successfully without parent.")
+            click.echo(f"✅ Role '{name}' created successfully without parent.")
 
     # ========================================
     # Create capability

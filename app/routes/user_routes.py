@@ -4,6 +4,8 @@ from app import db
 from app.models.user import User
 from app.models.role import Role
 from app.decorators.auth_decorators import requires_role
+from app.decorators.capability_role import requires_capability
+
 from werkzeug.security import generate_password_hash
 
 user_bp = Blueprint('user_bp', __name__)
@@ -13,7 +15,8 @@ user_bp = Blueprint('user_bp', __name__)
 # -------------------------
 @user_bp.route('/all', methods=['GET'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
+@requires_capability(('user-management'))
 def get_users():
     users = User.query.all()
     return jsonify([user.to_dict() for user in users]), 200
@@ -24,7 +27,7 @@ def get_users():
 # -------------------------
 @user_bp.route('/<int:user_id>', methods=['GET'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def get_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -37,7 +40,8 @@ def get_user(user_id):
 # -------------------------
 @user_bp.route('/new', methods=['POST'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
+@requires_capability(('user-management'))
 def create_user():
     data = request.get_json()
     username = data.get('username')
@@ -71,7 +75,8 @@ def create_user():
 # -------------------------
 @user_bp.route('/<int:user_id>', methods=['PUT'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
+@requires_capability(('user-management'))
 def update_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -99,7 +104,8 @@ def update_user(user_id):
 # -------------------------
 @user_bp.route('/<int:user_id>', methods=['DELETE'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
+@requires_capability(('user-management'))
 def delete_user(user_id):
     user = User.query.get(user_id)
     if not user:

@@ -12,14 +12,14 @@ role_bp = Blueprint('role_bp', __name__)
 
 @role_bp.route('/all', methods=['GET'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def get_roles():
     roles = get_all_roles_service()
     return jsonify([role.to_dict() for role in roles]), 200
 
 @role_bp.route('/new', methods=['POST'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def create_role():
     data = request.get_json()
     name = data.get('name')
@@ -32,7 +32,7 @@ def create_role():
 
 @role_bp.route('/<int:role_id>', methods=['PUT'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def update_role(role_id):
     data = request.get_json()
     name = data.get('name')
@@ -46,7 +46,7 @@ def update_role(role_id):
 
 @role_bp.route('/<int:role_id>', methods=['DELETE'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def delete_role(role_id):
     success, error = delete_role_service(role_id)
     if error:

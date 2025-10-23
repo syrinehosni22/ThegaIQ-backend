@@ -14,7 +14,7 @@ capability_bp = Blueprint('capability_bp', __name__)
 # ✅ Get All Capabilities
 @capability_bp.route('/all', methods=['GET'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def get_capabilities():
     capabilities = get_all_capabilities_service()
     return jsonify([c.to_dict() for c in capabilities]), 200
@@ -22,7 +22,7 @@ def get_capabilities():
 # ✅ Get One Capability
 @capability_bp.route('/<int:capability_id>', methods=['GET'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def get_capability(capability_id):
     capability = get_capability_by_id_service(capability_id)
     if not capability:
@@ -32,7 +32,7 @@ def get_capability(capability_id):
 # ✅ Create Capability
 @capability_bp.route('/new', methods=['POST'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def create_capability():
     data = request.get_json()
     name = data.get('name')
@@ -48,7 +48,7 @@ def create_capability():
 # ✅ Update Capability
 @capability_bp.route('/<int:capability_id>', methods=['PUT'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def update_capability(capability_id):
     data = request.get_json()
     name = data.get('name')
@@ -64,7 +64,7 @@ def update_capability(capability_id):
 # ✅ Delete Capability
 @capability_bp.route('/<int:capability_id>', methods=['DELETE'])
 @login_required
-@requires_role('admin')
+@requires_role('Administrator')
 def delete_capability(capability_id):
     success, error = delete_capability_service(capability_id)
     if error:

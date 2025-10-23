@@ -1,1 +1,1 @@
-flask create-admin admin admin@thegaiq.com test123
+flask create-admin Administrator admin@thegaiq.com test123
