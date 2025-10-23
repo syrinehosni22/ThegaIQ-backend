@@ -21,27 +21,36 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, default=False)  # access control
     roles = db.relationship('Role', secondary=user_roles)
 
-    def to_dict(self):
-        capabilities = set()
-
+    def all_roles(self):
+        """
+        Return all roles directly assigned to the user plus
+        all descendant roles (roles of roles’ children).
+        """
+        roles = set(self.roles)
         for role in self.roles:
-        # Add capabilities of the role itself
-            for cap in role.capabilities:
-                capabilities.add(cap.name)
-        
-        # If the role has a parent, also include its capabilities
-            if role.parent:
-                for cap in role.parent.capabilities:
-                    capabilities.add(cap.name)
+            roles |= role.get_all_descendants()
+        return roles
 
+    def all_capabilities(self):
+        """
+        Return all capabilities from all the user's roles,
+        including capabilities inherited from child roles.
+        """
+        capabilities = set()
+        for role in self.all_roles():
+            capabilities |= set(role.all_capabilities())
+        return {cap.name for cap in capabilities}
+
+    def to_dict(self):
+        """Serialize user data with full role and capability hierarchy."""
         return {
-           "id": self.id,
+            "id": self.id,
             "username": self.username,
             "email": self.email,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
             "roles": [role.name for role in self.roles],
-            "capabilities": list(capabilities)
+            "capabilities": list(self.all_capabilities()),
         }
     
     def has_role(self, role_name):
