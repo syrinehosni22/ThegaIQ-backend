@@ -1,0 +1,4 @@
+flask create-role <role_name> <'description'> <parent-name> 
+flask create-capability <capability-name> <'capability description'>
+flask assign-role-user <user-name> <role>
+flask assign-capabilities-role <role_name> <capability1> <capability2> ...
