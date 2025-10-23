@@ -57,7 +57,41 @@ The system allows:
 
 ## Installation & Setup
 
-1. **Clone the repository**  
-```bash
+Clone the repository
+
 git clone https://github.com/username/ThegaIQ-backend.git
 cd ThegaIQ-backend
+
+
+Create and activate a virtual environment
+
+python -m venv venv
+
+
+On Windows:
+
+venv\Scripts\activate
+
+
+On Linux/macOS:
+
+source venv/bin/activate
+
+
+Install dependencies
+
+pip install -r requirements.txt
+
+
+Create and configure the .env file
+You should also create a .env file and set it up as shown in the provided .env.example
+
+
+Run database migrations
+
+flask db upgrade
+
+
+Start the Flask development server
+
+flask run
