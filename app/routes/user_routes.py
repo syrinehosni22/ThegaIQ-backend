@@ -16,7 +16,7 @@ user_bp = Blueprint('user_bp', __name__)
 @user_bp.route('/all', methods=['GET'])
 @login_required
 @requires_role('Administrator')
-@requires_capability(('user-management'))
+@requires_capability(('view_all_users'))
 def get_users():
     users = User.query.all()
     return jsonify([user.to_dict() for user in users]), 200
@@ -41,7 +41,7 @@ def get_user(user_id):
 @user_bp.route('/new', methods=['POST'])
 @login_required
 @requires_role('Administrator')
-@requires_capability(('user-management'))
+@requires_capability(('can_add_users'))
 def create_user():
     data = request.get_json()
     username = data.get('username')
@@ -76,7 +76,7 @@ def create_user():
 @user_bp.route('/<int:user_id>', methods=['PUT'])
 @login_required
 @requires_role('Administrator')
-@requires_capability(('user-management'))
+@requires_capability(('can_modify_users'))
 def update_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -105,7 +105,7 @@ def update_user(user_id):
 @user_bp.route('/<int:user_id>', methods=['DELETE'])
 @login_required
 @requires_role('Administrator')
-@requires_capability(('user-management'))
+@requires_capability(('can_delete_users'))
 def delete_user(user_id):
     user = User.query.get(user_id)
     if not user:
